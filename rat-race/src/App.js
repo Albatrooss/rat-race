@@ -12,6 +12,12 @@ import NightSchool from './cellDisplay/nightSchool';
 import Dad from './cellDisplay/Dad';
 import Lottery from './cellDisplay/lottery';
 
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => ++value); // update the state to force render
+}
+
+
 const App = () => {
 
 	const [lower, setLower] = useState(initialzeBoard().lower);
@@ -19,9 +25,10 @@ const App = () => {
 	const [upper, setUpper] = useState(initialzeBoard().upper);
 	const [users, setUsers] = useState(initialzeBoard().users);
 	const [display, setDisplay] = useState(Default)
+	const forceRender = useForceUpdate();
 	
-	let turnIndex;
-	let turn = null;
+	let turnIndex = users.findIndex(x => x.turn);
+	let turn = users[turnIndex];
 	let roll = 6;
 	let doubleRolld = 0;
 	let rolls = 0;
@@ -31,14 +38,16 @@ const App = () => {
 	// Piece Movement
 	
 	const moveRoll = () => {
-		turnIndex = users.findIndex(x => x.turn);
-//		roll = Math.floor(Math.random() * (6)) + 1;
+	console.log(turnIndex)
+		roll = Math.floor(Math.random() * (6)) + 1;
 		let die = document.querySelector('#roll');
 		if (turnIndex === -1) {
 			die.innerHTML = `<img src="/assets/dice-06.png">`;
 			let temp = users;
 			temp[0].turn = true;
 			setUsers(temp);
+			turnIndex = 0
+			turn = users[0];
 		} else {
 			rolls = 0;
 			clickable = true;
@@ -60,6 +69,7 @@ const App = () => {
 			}
 			nextTurn();
 		}
+		console.log('turn:')
 		console.log(turn)
 	};
 	
@@ -70,8 +80,6 @@ const App = () => {
 		if (newCell > temp.length - 1) { newCell = newCell - temp.length; }
 		temp[newCell].pieces[turnIndex] = turn.color;
 		displayCell(temp, newCell);
-		console.log(currentCell)
-		console.log(newCell)
 		return temp;
 	}
 	
@@ -91,15 +99,19 @@ const App = () => {
 		}
 		next[turnIndex].turn = true;
 		setUsers(next);
+		turn = users[turnIndex];
 	}
 	
 		const goUp = () => {
+			console.log('turn:')
+			console.log(turn)
 			let tempL = lower;
 			let tempM = middle;
 			let tempU = upper;
 			let tempO = users;
 			
 			if (turn.level === 'lower') {
+				console.log(tempO)
 				tempO[turnIndex].level = 'middle';
 				setUsers(tempO);
 				tempM[0].pieces[turnIndex] = turn.color;
@@ -116,6 +128,7 @@ const App = () => {
 				current.pieces[turnIndex] = null;
 				setMiddle(tempM)
 			}
+			forceRender();
 	}
 	
 
