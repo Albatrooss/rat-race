@@ -27,7 +27,7 @@ export default function Dad({type, roll, claim}) {
 	return (
 		<div className="dad">
 			<h2 className="schoolTitle">{title}</h2>
-			<p className="schoolPrice" onclick={claim(reward)}>{para}</p>
+			<p className="schoolPrice" onClick={claim(reward)}>{para}</p>
 			{dice}
 		</div>
 	);

@@ -20,7 +20,9 @@ const App = () => {
 	const [users, setUsers] = useState(initialzeBoard().users);
 	const [display, setDisplay] = useState(Default)
 	
-	let roll = 9
+	let turnIndex;
+	let turn = null;
+	let roll = 6;
 	let doubleRolld = 0;
 	let rolls = 0;
 	let clickable = true;
@@ -29,88 +31,91 @@ const App = () => {
 	// Piece Movement
 	
 	const moveRoll = () => {
-		let turn = users.find(x => x.turn).color;
-		console.log(turn)
+		turnIndex = users.findIndex(x => x.turn);
 //		roll = Math.floor(Math.random() * (6)) + 1;
-		rolls = 0;
-		clickable = true;
 		let die = document.querySelector('#roll');
-		die.innerHTML = `<img src="/assets/dice-0${roll}.png">`;
-		let temp = []
-		if (turn.level === 'lower'){
-			temp = lower;	
-			setLower(movePiece(temp));
+		if (turnIndex === -1) {
+			die.innerHTML = `<img src="/assets/dice-06.png">`;
+			let temp = users;
+			temp[0].turn = true;
+			setUsers(temp);
+		} else {
+			rolls = 0;
+			clickable = true;
+			die.innerHTML = `<img src="/assets/dice-0${roll}.png">`;
+			
+			turn = users[turnIndex];
+			let temp;
+			if (turn.level === 'lower'){
+				temp = lower;	
+				setLower(movePiece(temp));
+			}
+			else if (turn.level === 'middle'){
+				temp = middle;
+				setMiddle(movePiece(temp));
+			}
+			else if (turn.level === 'upper'){
+				temp = upper;
+				setUpper(movePiece(temp));
+			}
+			nextTurn();
 		}
-		else if (turn.level === 'middle'){
-			temp = middle;
-			setMiddle(movePiece(temp));
-		}
-		else if (turn.level === 'upper'){
-			temp = upper;
-			setUpper(movePiece(temp));
-		}
-		nextTurn();
+		console.log(turn)
 	};
 	
 	const movePiece = (temp) => {
 		let currentCell = temp.find(cell => cell.pieces.includes(turn.color));
-		let i = users.findIndex(x => x.color === turn.color);
-		currentCell.pieces[i] = null;
+		currentCell.pieces[turnIndex] = null;
 		let newCell = currentCell.id + roll;
 		if (newCell > temp.length - 1) { newCell = newCell - temp.length; }
-		temp[newCell].pieces[i] = turn.color;
+		temp[newCell].pieces[turnIndex] = turn.color;
 		displayCell(temp, newCell);
+		console.log(currentCell)
+		console.log(newCell)
 		return temp;
 	}
 	
 	const nextTurn = () => {
-		let i = users.findIndex(x => x.color === turn.color);
-		let next = {};
-		if (i === 5) {
-			next = users[0];
+		let  next = users;
+		next[turnIndex].turn = false;
+		next[turnIndex].highlighted = true;
+		if (turnIndex === 0) {
+			next[5].highlighted = false;
 		} else {
-			next = users[i + 1];
+			next[turnIndex - 1].highlighted = false;
 		}
-		if (i === 0) {
-			users[5].highlighted = false;
-		} else if (i > 0) {
-			users[i - 1].highlighted = false;
+		if (turnIndex === 5) {
+			turnIndex = 0;
 		} else {
-			users[0].highlighted = true;
+			turnIndex++;
 		}
-		turn.highlighted = true;
-		setTurn(next);
+		next[turnIndex].turn = true;
+		setUsers(next);
 	}
 	
 		const goUp = () => {
-		if (turn.level === 'lower') {
-			setTurn({color: turn.color, level: 'middle'});
-			let tempM = middle;
-			let i = users.findIndex(x => x.color === turn.color);
-			let tempO = users;
-			tempO[i].level = 'middle';
-			setTurn(tempO);
-			setUsers(tempO);
-			tempM[0].pieces[i] = turn.color;
-			setMiddle(tempM);
 			let tempL = lower;
-			let current = tempL.find(x => x.pieces.includes(turn.color));
-			current.pieces[i] = null;
-			setLower(tempL)
-		} else if (turn.level === 'middle') {
-			setTurn({color: turn.color, level: 'upper'});
-			let tempU = upper;
-			let i = users.findIndex(x => x.color === turn.color);
-			let tempO = users;
-			tempO[i].level = 'upper';
-			setUsers(tempO);
-			tempU[0].pieces[i] = turn.color;
-			setUpper(tempU);
 			let tempM = middle;
-			let current = tempM.find(x => x.pieces.includes(turn.color));
-			current.pieces[i] = null;
-			setMiddle(tempM)
-		}
+			let tempU = upper;
+			let tempO = users;
+			
+			if (turn.level === 'lower') {
+				tempO[turnIndex].level = 'middle';
+				setUsers(tempO);
+				tempM[0].pieces[turnIndex] = turn.color;
+				setMiddle(tempM);
+				let current = tempL.find(x => x.pieces.includes(turn.color));
+				current.pieces[turnIndex] = null;
+				setLower(tempL)
+			} else if (turn.level === 'middle') {
+				tempO[turnIndex].level = 'upper';
+				setUsers(tempO);
+				tempU[0].pieces[turnIndex] = turn.color;
+				setUpper(tempU);
+				let current = tempM.find(x => x.pieces.includes(turn.color));
+				current.pieces[turnIndex] = null;
+				setMiddle(tempM)
+			}
 	}
 	
 
