@@ -29,16 +29,17 @@ const App = () => {
 	
 	let turnIndex = users.findIndex(x => x.turn);
 	let turn = users[turnIndex];
-	let roll = 6;
+	let roll = 9;
 	let doubleRolld = 0;
 	let rolls = 0;
 	let clickable = true;
 	let lottoCount = 0;
-	let lottoRolls = [0, 0, 0, 0, 0, 0];
+	let lottoHigh = 0;
+	let lottoWinners = [];
 	// Piece Movement
 	
 	const moveRoll = () => {
-		roll = Math.floor(Math.random() * (6)) + 1;
+//		roll = Math.floor(Math.random() * (6)) + 1;
 		let die = document.querySelector('#roll');
 		if (turnIndex === -1) {
 			die.innerHTML = `<img src="/assets/dice-06.png">`;
@@ -177,7 +178,7 @@ const App = () => {
 			let winnings = stockVal(bet) - bet;
 			turn.bank += winnings
 			clickable = false;
-			console.log(winnings)
+			forceRender();
 		}
 	}
 	
@@ -221,7 +222,7 @@ const App = () => {
 	const buyDiploma = (price) => {
 		turn.degree = 'dip';
 		turn.bank = turn.bank - price;
-		nextTurn();
+		forceRender();
 	}
 	
 	// GIFT FROM DAD
@@ -235,6 +236,7 @@ const App = () => {
 			doubleRolld = roll01 + roll02;
 			turn.bank += round((doubleRolld * multiplier));
 			rolls++;
+			forceRender();
 		}
 	}
 	
@@ -245,21 +247,48 @@ const App = () => {
 	//Lottery
 	
 	const lottery = () => {
-		if (lottoCount < 6) {
+		let total = 0
+		if (lottoCount === 0) {
 			let roll01 = Math.floor(Math.random() * 6) + 1;
 			let roll02 = Math.floor(Math.random() * 6) + 1;
-			lottoRolls[lottoCount] = roll01 + roll02;
+			lottoHigh = roll01 + roll02;
+			lottoWinners.push(lottoCount);
 			document.querySelector(`#${users[lottoCount].color}Roll`).innerHTML = `<img src='/assets/dice-0${roll01}.png' /><img src='/assets/dice-0${roll02}.png' />`
 			lottoCount++;
-		} else {
+		} else if (lottoCount < 5) {
+			let roll01 = Math.floor(Math.random() * 6) + 1;
+			let roll02 = Math.floor(Math.random() * 6) + 1;
+			let val = roll01 + roll02;
+			if (val > lottoHigh) {
+				lottoHigh = val;
+				lottoWinners = [lottoCount];
+			} else if (val === lottoHigh) {
+				lottoWinners.push(lottoCount);
+			};
+			
+			document.querySelector(`#${users[lottoCount].color}Roll`).innerHTML = `<img src='/assets/dice-0${roll01}.png' /><img src='/assets/dice-0${roll02}.png' />`
+			lottoCount++;
+		} else if (lottoCount === 5) {
+			document.querySelector('.lottoBtn').innerHTML = 'CLAIM'
+			let roll01 = Math.floor(Math.random() * 6) + 1;
+			let roll02 = Math.floor(Math.random() * 6) + 1;
+			let val = roll01 + roll02;
+			if (val > lottoHigh) {
+				lottoHigh = val;
+				lottoWinners = [lottoCount];
+			} else if (val === lottoHigh) {
+				lottoWinners.push(lottoCount);
+			};
+			
+			document.querySelector(`#${users[lottoCount].color}Roll`).innerHTML = `<img src='/assets/dice-0${roll01}.png' /><img src='/assets/dice-0${roll02}.png' />`
+			lottoCount++;
+		}	else {
 			let bet = document.querySelector('#lottoBet').value;
-			let winner = 0;
-			for (let i = 1; i < 6; i++) {
-				if (lottoRolls[i] > lottoRolls[i - 1]) {
-					winner = i;
-				}
+			
+			for (let i = 0; i < lottoWinners.length; i++) {
+				users[lottoWinners[i]].bank+= 6 * bet / lottoWinners.length;
 			}
-			users[winner].bank += 6 * bet;
+			forceRender();
 		}
 	}
 	
