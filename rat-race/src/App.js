@@ -38,7 +38,6 @@ const App = () => {
 	// Piece Movement
 	
 	const moveRoll = () => {
-	console.log(turnIndex)
 		roll = Math.floor(Math.random() * (6)) + 1;
 		let die = document.querySelector('#roll');
 		if (turnIndex === -1) {
@@ -47,7 +46,6 @@ const App = () => {
 			temp[0].turn = true;
 			setUsers(temp);
 			turnIndex = 0
-			turn = users[0];
 		} else {
 			rolls = 0;
 			clickable = true;
@@ -69,8 +67,6 @@ const App = () => {
 			}
 			nextTurn();
 		}
-		console.log('turn:')
-		console.log(turn)
 	};
 	
 	const movePiece = (temp) => {
@@ -99,17 +95,15 @@ const App = () => {
 		}
 		next[turnIndex].turn = true;
 		setUsers(next);
-		turn = users[turnIndex];
 	}
 	
-		const goUp = () => {
-			console.log('turn:')
-			console.log(turn)
+	const goUp = () => {
+		if (turnIndex !== -1) {
 			let tempL = lower;
 			let tempM = middle;
 			let tempU = upper;
 			let tempO = users;
-			
+
 			if (turn.level === 'lower') {
 				console.log(tempO)
 				tempO[turnIndex].level = 'middle';
@@ -129,6 +123,7 @@ const App = () => {
 				setMiddle(tempM)
 			}
 			forceRender();
+		}
 	}
 	
 
@@ -137,13 +132,13 @@ const App = () => {
 	const creditProperty = (color, price) => {
 		let props = turn.props;
 		if (turn.color !== color && turn.props.length < 3 && props.findIndex(x => x.color === color) === -1) {
-			console.log(turn.props.includes(x => x.color === color))
 			let buyer = users.findIndex(x => x.color === turn.color)
 			let seller = users.findIndex(x => x.color === color);
 			users[buyer].credit += price;
 			users[seller].bank += price;
 			displayProp(color, price);
 		}
+		forceRender();
 	}	
 	const cashProperty = (color, price) => {
 		let props = turn.props;
@@ -154,11 +149,12 @@ const App = () => {
 			users[seller].bank += price;
 			displayProp(color, price);
 		}
+		
+		forceRender();
 	}
 	
 	const displayProp = (color, price) => {
-		turn.props = [...turn.props, {color: color, value: price}]
-		nextTurn();	
+		turn.props = [...turn.props, {color: color, value: price}];
 	}
 	
 	//Stock Exchange
