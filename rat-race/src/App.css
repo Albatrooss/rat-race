@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Poppins&family=Special+Elite&display=swap');
+body {
+	margin: 0;
+	font-size: .85rem;
+}
+
+h1 {
+	margin: 0;
+}
+div {
+	text-align: center;
+}
+.app {
+	display: flex;
+	justify-content: space-around;
+}
+
+.gameWindow {
+	margin: 40px auto;
+	width: 1060px;
+	height: 680px;
+	padding: 20px;
+	background: #ddd;
+	display: flex;
+}
+.display {
+	background: #ccc;
+}
+
+.right {
+	width: 400px;
+	z-index: 1;
+}
+img {
+	width: 50px;
+}
+.start {
+	margin: 20px auto;
+	background: #fff;
+	border-radius: 5px;
+	width: 50%;
+}

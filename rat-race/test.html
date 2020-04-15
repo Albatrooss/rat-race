@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+			.row {
+				display: flex;
+				width: 100%;
+			}
+			.cell,
+			.gap,
+			.cellB,
+			.cellT,
+			.cellL,
+			.cellR,
+			.cellTL,
+			.cellTR,
+			.cellBL,
+			.cellBR,
+			.cellT1,
+			.cellT2,
+			.cellB1,
+			.cellB2,
+			.cellL1,
+			.cellL2,
+			.cellR1,
+			.cellR2 {
+				height: 50px;
+				width: 50px;
+				background: #ddd;
+				border: 2px solid grey;
+			}
+			.gap {
+				background: #fff;
+			}
+			.cellB {
+				border-bottom: 4px solid black;
+				border-top: 0px solid black;
+			}
+			.cellT {
+				border-top: 4px solid black;
+				border-bottom: 0px solid black;
+			}
+			.cellL {
+				border-left: 4px solid black;
+				border-right: 0px solid black;
+			}
+			.cellR {
+				border-right: 4px solid black;
+				border-left: 0px solid black;
+			}
+			.cellTL {
+				border-top: 4px solid black;
+				border-left: 4px solid black;
+				border-bottom: 0px solid grey;
+				border-right: 0px solid grey;
+			}
+			.cellTR {
+				border-top: 4px solid black;
+				border-right: 4px solid black;
+				border-bottom: 0px solid black;
+				border-left: 0px solid black;
+			}
+			.cellBL {
+				border-bottom: 4px solid black;
+				border-left: 4px solid black;
+				border-top: 0px solid black;
+				border-right: 0px solid black;
+			}
+			.cellBR {
+				border-bottom: 4px solid black;
+				border-right: 4px solid black;
+				border-top: 0px solid black;
+				border-left: 0px solid black;
+			}
+			.cellT1 {
+				border-top: 4px solid black;
+				border-bottom: 0px solid black;
+				border-left: 4px solid grey;
+			}
+			.cellT2 {
+				border-top: 4px solid black;
+				border-bottom: 0px solid black;
+				border-right: 4px solid grey;
+			}
+			.cellB1 {
+				border-bottom: 4px solid black;
+				border-top: 0px solid black;
+				border-left: 4px solid grey;
+			}
+			.cellB2 {
+				border-bottom: 4px solid black;
+				border-top: 0px solid black;
+				border-right: 4px solid grey;
+			}
+			.cellL1 {
+				border-left: 4px solid black;
+				border-right: 0px solid black;
+				border-top: 4px solid grey;
+			}
+			.cellL2 {
+				border-left: 4px solid black;
+				border-right: 0px solid black;
+				border-bottom: 4px solid grey;
+			}
+		
+		</style>
+	</head>
+	<body>
+		<div class="row">
+			<div class="cellTL"></div>
+			<div class="cellT1"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT2"></div>
+			<div class="cellTR"></div>
+		</div>
+		<div class="row">
+			<div class="cellL1"></div>
+			<div class="cellTL"></div>
+			<div class="cellT1"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT2"></div>
+			<div class="cellTR"></div>
+			<div class="cellR"></div>
+		</div>
+		<div class="row">
+			<div class="cellL"></div>
+			<div class="cellL1"></div>
+			<div class="cellTL"></div>
+			<div class="cellT1"></div>
+			<div class="cellT"></div>
+			<div class="cellT"></div>
+			<div class="cellT2"></div>
+			<div class="cellTR"></div>
+			<div class="cellR"></div>
+			<div class="cellR"></div>
+		</div>
+		<div class="row">
+			<div class="cellL"></div>
+			<div class="cellL"></div>
+			<div class="cellL1"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="cellR"></div>
+			<div class="cellR"></div>
+			<div class="cellR"></div>
+		</div>
+		<div class="row">
+			<div class="cellL"></div>
+			<div class="cellL"></div>
+			<div class="cellL"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="cellR"></div>
+			<div class="cellR"></div>
+			<div class="cellR"></div>
+		</div>
+		<div class="row">
+			<div class="cellL"></div>
+			<div class="cellL"></div>
+			<div class="cellL"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="gap"></div>
+			<div class="cellR"></div>
+			<div class="cellR"></div>
+			<div class="cellR"></div>
+		</div>
+		<div class="row">
+			<div class="cellL"></div>
+			<div class="cellL"></div>
+			<div class="cellBL"></div>
+			<div class="cellB1"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB2"></div>
+			<div class="cellBR"></div>
+			<div class="cellR"></div>
+			<div class="cellR"></div>
+		</div>
+		<div class="row">
+			<div class="cellL"></div>
+			<div class="cellBL"></div>
+			<div class="cellB1"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB2"></div>
+			<div class="cellBR"></div>
+			<div class="cellR"></div>
+		</div>
+		<div class="row">
+			<div class="cellBL"></div>
+			<div class="cellB1"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB"></div>
+			<div class="cellB2"></div>
+			<div class="cellBR"></div>
+		</div>
+		
+	</body>
+</html>

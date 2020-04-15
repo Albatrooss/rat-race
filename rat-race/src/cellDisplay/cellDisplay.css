@@ -1,0 +1,148 @@
+.cellDisplay,
+.stockExchange,
+.nightSchool,
+.lottery {
+	width: 220px;
+	height: 220px;
+	margin: 5px;
+	border-radius: 5px;
+	border: 1px #222 solid;
+}
+.stockExchange .row {
+	max-height: 40px;
+}
+.lottery {
+	background: pink;
+}
+.propTitle {
+	margin: 5px 0 30px 0;
+	font-family: 'Poppins', sans-serif;
+	font-size: 25px;
+}
+.propPrice {
+	margin: 10px;
+}
+.cellDisplay p {
+	font-size: 12px;
+}
+.buyPropBtn {
+	padding: 10px;
+	margin: 0 10px;
+	border: none;
+	background: #fff;
+	border-radius: 5px;
+	font-weight: 600;
+	font-size: 20px;
+}
+.stockExchange {
+	background: #FFEBBD;
+	font-family: 'Poppins', sans-serif;
+}
+.stockTitle {
+	font-size: 23px;
+	margin: 5px;
+}
+.loseGain {
+	margin: 2px 0;
+}
+.stockCol01,
+.stockCol02 {
+	border: 1px solid #fff;
+	width: 40px;
+	font-size: 10px;
+	margin: 0;
+}
+.stockCol02 {
+	width: 70px;
+	flex: 2
+}
+#stockInput {
+	flex: 1;
+	text-align: center;
+}
+.stockD01 img,
+.stockD02 img {
+	width: 35px;
+	height: 35px;
+	margin: 5px;
+	flex: 1;
+}
+.stockBtn:hover {
+	background: #ddd;
+	border: 1px solid black;
+	margin: 4px 5px 0 0;
+}
+.stockBtn {
+	margin: 5px 5px 0 0 ;
+	flex: 1;
+	background: #fff;
+	border-radius: 5px;
+	height: 35px;
+}
+.stockBtn p {
+	font-size: 25px;
+	margin: 0;
+}
+.nightSchool {
+	background: yellow;
+	font-family: 'Poppins', sans-serif;
+}
+.schoolTitle,
+.displayTitle {
+	margin: 5px;
+	font-size: 35px;
+}
+.schoolPrice {
+	font-size: 20px;
+	margin: 5px;
+}
+.schoolBtn {
+	position: relative;
+	top: -12px;
+	height: 25px;
+	width: 100px;
+  background: #fff;
+  border-radius: 5px;
+}
+.dice {
+	display: flex;
+	width: 100%;
+	justify-content:space-around
+}
+.dice img {
+	margin: 5px;
+}
+.lottery {
+	font-family: 'Poppins', sans-serif;
+}
+.lottery h2 {
+	font-size: 25px;
+}
+#lottoBet {
+	width: 85px;
+	text-align: center;
+	margin: 10px;
+}
+.lottery .row {
+	justify-content: space-around;
+}
+.lottoRoll {
+	width: 85px;
+	height: 30px;
+	margin: 5px;
+	border: 1px solid black;
+	border-radius: 3px;
+	display: flex;
+}
+.lottoRoll img {
+	width: 25px;
+	height: 25px;
+	margin: 2px 8px;
+}
+.lottoBtn {
+	background: #fff;
+	height: 20px;
+	width: 100px;
+	margin: 10px 10px 5px 10px;
+	z-index: 1;
+}

@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Special+Elite&display=swap');
+.userContainer {
+	font-family: 'Special Elite', cursive;  
+	margin: 10px;
+  border: 2px solid #444;
+  border-radius: 5px;
+  padding: 5px;
+}
+.row {
+	width: 100%;
+}
+
+.propertyContainer {
+	background: #fff;
+	width: 140px;
+	display: flex;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding-top: 5px;
+}
+.userName {
+	flex: 2;
+}
+.userName h2,
+.userName h4 {
+	margin: 5px;
+}
+.userH2 {
+	text-decoration: underline;
+	background: #fff;
+}
+.classH4 {
+	font-family: 'Special Elite', cursive;
+}
+
+.prop {
+	width: 30px;
+	margin: 5px;
+	height: 30px;
+	border: 1px solid black;
+	border-radius: 4px;
+	margin: 2px;
+	padding: 2px 0;
+}
+
+.uniProp {
+	background: yellow;
+}
+.uniProp img {
+	width: 25px;
+}
+.bottomRow h2 {
+	margin: 2px;
+}
+.bottomRow {
+	display: flex;
+	justify-content: space-between
+}
+.credit {
+	margin: 9px 0 0 0;
+}
+
+.highlight {
+	border: 5px solid orange;
+}
