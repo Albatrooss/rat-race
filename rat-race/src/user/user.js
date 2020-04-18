@@ -32,12 +32,14 @@ function User({ user }) {
 			);
 		});
 		let uni = null;
-		if (user.degree) {
+		if (user.degree === 'uni') {
 			uni = <div className='prop uniProp'><img src='/assets/diploma.jpeg' alt='' /></div>;
-		} 
+		} else if (user.degree === 'yatch') {
+			uni = <div className='prop yatchProp'>YATCH CLUB</div>
+		}
 		
 
-		let highlight = user.highlighted ? 'highlight' : '';
+		let highlight = user.turn ? 'highlight' : '';
 		return (
 			<div className={`userContainer ${highlight}`} style={{background: niceColor(user.color)}}>
 				<div className="row">

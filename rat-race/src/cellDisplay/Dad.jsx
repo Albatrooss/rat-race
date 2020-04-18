@@ -4,31 +4,43 @@ import './cellDisplay.css';
 export default function Dad({type, roll, claim}) {
 	let title = '';
 	let para = '';
-	let reward = 0;
-	let dice = null;
+	let claimDiv = null;
 	let multiplier = 0;
 	if (type === 'dad') {
 		title = 'GIFT FROM DAD'
 		para = 'Collect $100';
-		reward = 100;
+		claimDiv = <div className='dice'>
+				<button onClick={() => claim(100)}>CLAIM</button>
+			</div>
 	} else if (type === 'footballLower') {
 		title = 'FOOTBALL POOL'
 		para = 'Winnings of $20 times roll of both dice';
-		dice = <div className='dice' onClick={() => roll(multiplier)}>
-			<div className="dadD01"><img src="/assets/dice-01.png" alt='' /></div>
-			<div className="dadD02"><img src="/assets/dice-01.png" alt='' /></div>
+		claimDiv = <div className='dice'>
+			<input type='text' id='footballInput' placeholder='ROLL' />
+			<button onClick={() => roll(20)}>CLAIM</button>
 		</div>
 		multiplier = 20;
 	} else if ( type === 'bingo') {
 		title = 'GOOD NIGHT AT BINGO';
 		para = 'Collect $100';
-		reward = 100;
-	} 
+		claimDiv = <div className='dice'>
+				<button onClick={() => claim(100)}>CLAIM</button>
+			</div>
+	} else if (type === 'footballMiddle') {
+		title = 'FOOTBALL POOL'
+		para = 'Winnings of $100 times roll of both dice';
+		claimDiv = <div className='dice'>
+			<input type='text' id='footballInput' placeHolder='ROLL' />
+			<button onClick={() => roll(100)}>CLAIM</button>
+		</div>
+		multiplier = 100;
+		
+	}
 	return (
 		<div className="dad">
 			<h2 className="schoolTitle">{title}</h2>
-			<p className="schoolPrice" onClick={claim(reward)}>{para}</p>
-			{dice}
+			<p className="schoolPrice">{para}</p>
+			{claimDiv}
 		</div>
 	);
 }

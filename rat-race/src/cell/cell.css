@@ -3,7 +3,7 @@
 .middle,
 .upper {
 	height: 60px;
-	width: 60px;
+	width: 54px;
 	margin: 2px;
 	background: #fff;
 	border: 1px solid #333;
@@ -11,15 +11,16 @@
 	line-height: 20px;
 	display: flex;
 	position: relative;
+	padding: 0 3px;
 }
 .middle {
 	height: 58px;
-	width: 58px;
+	width: 52px;
 	line-height: 19px;
 }
 .upper {
 	height: 56px;
-	width: 56px;
+	width: 50px;
 	line-height: 19px;
 }
 .lowerText {

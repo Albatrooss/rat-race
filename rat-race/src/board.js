@@ -4,7 +4,7 @@ export default function initializeBoard() {
 		{
 			type: 'start',
 			color: 'pink',
-			text: 'GRADUTAION DAY'
+			text: 'START'
 		},
 		{
 			type: 'red',
@@ -92,7 +92,7 @@ export default function initializeBoard() {
 			text: 'OLIVE PROPERTY $100'
 		},
 		{
-			type: 'collect200',
+			type: 'collect',
 			color: '#FFC732',
 			text: 'COLLECT $200'
 		},
@@ -109,7 +109,7 @@ export default function initializeBoard() {
 		{
 			type: 'ei',
 			color: '#F8E73E',
-			text: 'EMPLOYMENT INSURANCE $10x DIE'
+			text: 'E I PAYMENT $10x DIE'
 		},
 		{
 			type: 'black',
@@ -261,10 +261,10 @@ export default function initializeBoard() {
 		{
 			type: 'ascot',
 			color: 'yellow',
-			text: 'DOUBLES $1000 EVENS $200 ODDS $50'
+			text: 'ASCOT SWEEP STAKES'
 		},
 		{
-			type: 'collect1k',
+			type: 'collect',
 			color: '#FFC732',
 			text: 'COLLECT $1000'
 		},
@@ -284,7 +284,7 @@ export default function initializeBoard() {
 			text: 'STOCK EXCHANGE'
 		},
 		{
-			type: 'yatch',
+			type: 'country',
 			color: '#CBE182',
 			text: 'YACHT CLUB'
 		},
@@ -395,7 +395,7 @@ export default function initializeBoard() {
 			text: 'RED PROPERTY $3000'
 		},
 		{
-			type: 'collect10k',
+			type: 'collect',
 			color: '#FFC732',
 			text: 'COLLECT $10,000'
 		},
@@ -458,19 +458,19 @@ export default function initializeBoard() {
 	let users = [
 			{
 			color: 'red',
-			username: 'Albatrooss',
+			username: 'Hermione',
 		},
 		{
 			color: 'blue',
-			username: 'Caitlin',
+			username: 'Albatroos',
 		},
 		{
 			color: 'green',
-			username: 'Andrew Robillard',
+			username: 'Hannah',
 		},
 		{
 			color: 'black',
-			username: 'Keela09',
+			username: 'Dad',
 		},
 		{
 			color: 'brown',
@@ -478,7 +478,7 @@ export default function initializeBoard() {
 		},
 		{
 			color: 'olive',
-			username: 'Hannah',
+			username: 'ElmDawg',
 		}
 	].reduce((acc, user) => {
 		acc.push({
@@ -495,7 +495,7 @@ export default function initializeBoard() {
 		return acc;
 	}, []);
 	
-	const colors = ['red', 'blue', 'green', 'black', 'brown', 'olive'];
+	const colors = users.map(x => x.color);
 	lower[0].pieces = colors;
 	return {lower: lower, middle: middle, upper: upper, users: users};
 }

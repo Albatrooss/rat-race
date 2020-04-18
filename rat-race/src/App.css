@@ -40,3 +40,29 @@ img {
 	border-radius: 5px;
 	width: 50%;
 }
+#roll {
+	position: absolute;
+	bottom: -20px;
+	right: 190px;
+}
+#goUpBtn:focus,
+#nextTurnBtn:focus,
+#moveBtn:focus {
+	outline: 0;
+}
+#goUpBtn,
+#nextTurnBtn,
+#moveBtn {
+	margin: 0 25px;
+	height: 35px;
+	width: 75px;
+	background: #2f2f2f;
+	color: white;
+	border-radius: 5px;
+	border: 2px solid white;
+	box-shadow: 2px 2px 5px #000;
+	-webkit-box-shadow: 2px 2px 5px #000;
+	-moz-box-shadow: 2px 2px 5px #000;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}

@@ -11,6 +11,10 @@ import StockExchange from './cellDisplay/stockExchange';
 import NightSchool from './cellDisplay/nightSchool';
 import Dad from './cellDisplay/Dad';
 import Lottery from './cellDisplay/lottery';
+import RaceTrack from './cellDisplay/racetrack';
+import YatchClub from './cellDisplay/yatchClub';
+import Collect from './cellDisplay/collect';
+import Welfare from './cellDisplay/welfare';
 
 function useForceUpdate(){
     const [value, setValue] = useState(0); // integer state
@@ -26,32 +30,40 @@ const App = () => {
 	const [users, setUsers] = useState(initialzeBoard().users);
 	const [display, setDisplay] = useState(Default)
 	const forceRender = useForceUpdate();
+	const [turnOver, setTurnOver] = useState(false);
 	
 	let turnIndex = users.findIndex(x => x.turn);
 	let turn = users[turnIndex];
-	let roll = 9;
+	
+	let roll = 1;
 	let doubleRolld = 0;
 	let rolls = 0;
 	let clickable = true;
 	let lottoCount = 0;
 	let lottoHigh = 0;
 	let lottoWinners = [];
+	let raceBet = {};
+	let raceHorse = {};
+	let raceWinners = [];
+	let landed = 0;
+	
 	// Piece Movement
 	
+	let rollInput;
+	
+		
 	const moveRoll = () => {
-//		roll = Math.floor(Math.random() * (6)) + 1;
-		let die = document.querySelector('#roll');
+		if (!turnOver) {
 		if (turnIndex === -1) {
-			die.innerHTML = `<img src="/assets/dice-06.png">`;
 			let temp = users;
 			temp[0].turn = true;
 			setUsers(temp);
 			turnIndex = 0
+			users[0].highlighted = true;
 		} else {
+
 			rolls = 0;
-			clickable = true;
-			die.innerHTML = `<img src="/assets/dice-0${roll}.png">`;
-			
+			clickable = true;			
 			turn = users[turnIndex];
 			let temp;
 			if (turn.level === 'lower'){
@@ -66,9 +78,9 @@ const App = () => {
 				temp = upper;
 				setUpper(movePiece(temp));
 			}
-			nextTurn();
 		}
-	};
+		}
+};
 	
 	const movePiece = (temp) => {
 		let currentCell = temp.find(cell => cell.pieces.includes(turn.color));
@@ -83,12 +95,11 @@ const App = () => {
 	const nextTurn = () => {
 		let  next = users;
 		next[turnIndex].turn = false;
-		next[turnIndex].highlighted = true;
-		if (turnIndex === 0) {
-			next[5].highlighted = false;
-		} else {
-			next[turnIndex - 1].highlighted = false;
-		}
+//		if (turnIndex === 0) {
+//			next[0].highlighted = false;
+//		} else {
+//			next[turnIndex - 1].highlighted = false;
+//		}
 		if (turnIndex === 5) {
 			turnIndex = 0;
 		} else {
@@ -96,17 +107,18 @@ const App = () => {
 		}
 		next[turnIndex].turn = true;
 		setUsers(next);
+		setTurnOver(false);
+		forceRender();
 	}
 	
 	const goUp = () => {
-		if (turnIndex !== -1) {
+		if (turnIndex !== -1 && !turnOver) {
 			let tempL = lower;
 			let tempM = middle;
 			let tempU = upper;
 			let tempO = users;
 
 			if (turn.level === 'lower') {
-				console.log(tempO)
 				tempO[turnIndex].level = 'middle';
 				setUsers(tempO);
 				tempM[0].pieces[turnIndex] = turn.color;
@@ -139,19 +151,23 @@ const App = () => {
 			users[seller].bank += price;
 			displayProp(color, price);
 		}
+		setTurnOver(true);
 		forceRender();
+
 	}	
 	const cashProperty = (color, price) => {
-		let props = turn.props;
-		if (turn.color !== color && turn.props.length < 3 && props.findIndex(x => x.color === color) === -1) {
-			let buyer = users.findIndex(x => x.color === turn.color)
-			let seller = users.findIndex(x => x.color === color);
-			users[buyer].bank -= price;
-			users[seller].bank += price;
-			displayProp(color, price);
+		if (turn.bank >= price) {
+			let props = turn.props;
+			if (turn.color !== color && turn.props.length < 3 && props.findIndex(x => x.color === color) === -1) {
+				let buyer = users.findIndex(x => x.color === turn.color)
+				let seller = users.findIndex(x => x.color === color);
+				users[buyer].bank -= price;
+				users[seller].bank += price;
+				displayProp(color, price);
+			}
+			setTurnOver(true);
+			forceRender();
 		}
-		
-		forceRender();
 	}
 	
 	const displayProp = (color, price) => {
@@ -159,52 +175,55 @@ const App = () => {
 	}
 	
 	//Stock Exchange
-	
-	const stockRoll = () => {
-		if (rolls < 3){
-			let roll01 = Math.floor(Math.random() * 6) + 1;
-			let roll02 = Math.floor(Math.random() * 6) + 1;
-			document.querySelector('.stockD01').innerHTML = `<img src='/assets/dice-0${roll01}.png' />`;
-			document.querySelector('.stockD02').innerHTML = `<img src='/assets/dice-0${roll02}.png' />`;
-			doubleRolld = roll01 + roll02;
-			rolls++;
-		}
-		console.log('hello')
-	}
+//	
+//	const stockRoll = () => {
+//		if (rolls < 3){
+//			let roll01 = Math.floor(Math.random() * 6) + 1;
+//			let roll02 = Math.floor(Math.random() * 6) + 1;
+//			document.querySelector('.stockD01').innerHTML = `<img src='/assets/dice-0${roll01}.png' />`;
+//			document.querySelector('.stockD02').innerHTML = `<img src='/assets/dice-0${roll02}.png' />`;
+//			doubleRolld = roll01 + roll02;
+//			rolls++;
+//		}
+//	}
 	
 	const sellStock = () => {
 		if (clickable) {
 			let bet = document.querySelector('#stockInput').value;
+			doubleRolld = document.querySelector('#stockRoll').value;
+			console.log(doubleRolld)
 			let winnings = stockVal(bet) - bet;
+			console.log(winnings)
 			turn.bank += winnings
 			clickable = false;
+			setTurnOver(true);
 			forceRender();
 		}
 	}
 	
 	const stockVal = (bet) => {
-		if (doubleRolld === 2) {
+		if (doubleRolld === '2') {
 			return 0;
-		} else if (doubleRolld === 3) {
+		} else if (doubleRolld === '3') {
 			return 50;
-		} else if (doubleRolld === 4) {
+		} else if (doubleRolld === '4') {
 			return round(Math.floor(bet * 0.25));
-		} else if (doubleRolld === 5) {
+		} else if (doubleRolld === '5') {
 			return round(Math.floor(bet * 0.5));
-		} else if (doubleRolld === 6) {
+		} else if (doubleRolld === '6') {
 			return round(Math.floor(bet * 0.75));
-		} else if (doubleRolld === 7) {
+		} else if (doubleRolld === '7') {
 			return bet;
-		} else if (doubleRolld === 8) {
-			return Math.floor(bet * 1.5);
-		} else if (doubleRolld === 9) {
-			return Math.floor(bet * 2);
-		} else if (doubleRolld === 10) {
-			return Math.floor(bet * 3);
-		} else if (doubleRolld === 11) {
-			return Math.floor(bet * 6);
+		} else if (doubleRolld === '8') {
+			return bet * 1.5;
+		} else if (doubleRolld === '9') {
+			return bet * 2;
+		} else if (doubleRolld === '10') {
+			return bet * 3;
+		} else if (doubleRolld === '11') {
+			return bet * 6;
 		} else {
-			return Math.floor(bet * 11);
+			return bet * 11;
 		}
 	} 
 	
@@ -217,79 +236,173 @@ const App = () => {
 		}
 	}
 	
-	//NIGHT SCHOOL
+	//SCHOOL and COUNTRY CLUB
 	
 	const buyDiploma = (price) => {
-		turn.degree = 'dip';
-		turn.bank = turn.bank - price;
-		forceRender();
+		if (turn.bank >= price) {
+			turn.degree = 'uni';
+			turn.bank = turn.bank - price;
+			setTurnOver(true);
+			forceRender();
+		}
+	}
+	
+	const buyMembership = (price) => {
+		if (turn.bank >= price) {
+			turn.degree = 'yatch';
+			turn.bank = turn.bank - price;
+			setTurnOver(true);
+			forceRender();
+		}
 	}
 	
 	// GIFT FROM DAD
 	
 	const dadRoll = (multiplier) => {
 		if (rolls === 0) {
-			let roll01 = Math.floor(Math.random() * 6) + 1;
-			let roll02 = Math.floor(Math.random() * 6) + 1;
-			document.querySelector('.dadD01').innerHTML = `<img src='/assets/dice-0${roll01}.png' />`;
-			document.querySelector('.dadD02').innerHTML = `<img src='/assets/dice-0${roll02}.png' />`;
-			doubleRolld = roll01 + roll02;
+			doubleRolld = document.getElementById('footballInput').value;
 			turn.bank += round((doubleRolld * multiplier));
 			rolls++;
+			setTurnOver(true);
 			forceRender();
 		}
 	}
 	
 	const dadClaim = (amount) => {
-		turn.bank += amount;
+		if (clickable) {
+			turn.bank += amount;
+			setTurnOver(true);
+			forceRender();
+			clickable = false;
+		}
 	}
 	
 	//Lottery
 	
-	const lottery = () => {
-		let total = 0
-		if (lottoCount === 0) {
-			let roll01 = Math.floor(Math.random() * 6) + 1;
-			let roll02 = Math.floor(Math.random() * 6) + 1;
-			lottoHigh = roll01 + roll02;
-			lottoWinners.push(lottoCount);
-			document.querySelector(`#${users[lottoCount].color}Roll`).innerHTML = `<img src='/assets/dice-0${roll01}.png' /><img src='/assets/dice-0${roll02}.png' />`
-			lottoCount++;
-		} else if (lottoCount < 5) {
-			let roll01 = Math.floor(Math.random() * 6) + 1;
-			let roll02 = Math.floor(Math.random() * 6) + 1;
-			let val = roll01 + roll02;
-			if (val > lottoHigh) {
-				lottoHigh = val;
-				lottoWinners = [lottoCount];
-			} else if (val === lottoHigh) {
-				lottoWinners.push(lottoCount);
-			};
-			
-			document.querySelector(`#${users[lottoCount].color}Roll`).innerHTML = `<img src='/assets/dice-0${roll01}.png' /><img src='/assets/dice-0${roll02}.png' />`
-			lottoCount++;
-		} else if (lottoCount === 5) {
-			document.querySelector('.lottoBtn').innerHTML = 'CLAIM'
-			let roll01 = Math.floor(Math.random() * 6) + 1;
-			let roll02 = Math.floor(Math.random() * 6) + 1;
-			let val = roll01 + roll02;
-			if (val > lottoHigh) {
-				lottoHigh = val;
-				lottoWinners = [lottoCount];
-			} else if (val === lottoHigh) {
-				lottoWinners.push(lottoCount);
-			};
-			
-			document.querySelector(`#${users[lottoCount].color}Roll`).innerHTML = `<img src='/assets/dice-0${roll01}.png' /><img src='/assets/dice-0${roll02}.png' />`
-			lottoCount++;
-		}	else {
+	const lottery = (winner) => {
+		if (clickable) {
 			let bet = document.querySelector('#lottoBet').value;
-			
-			for (let i = 0; i < lottoWinners.length; i++) {
-				users[lottoWinners[i]].bank+= 6 * bet / lottoWinners.length;
-			}
+			let players = document.querySelector('#lottoPlayers').value;
+			users.find(x => x.color === winner).bank += bet * players;
+			clickable = false;
+			setTurnOver(true);
 			forceRender();
 		}
+	}
+	
+	//RACETRACK
+	
+	const raceSub = (color) => {
+		raceBet[color] = document.getElementById(`${color}Bet`).value;
+		raceHorse[color] = document.getElementById(`${color}Horse`).value;
+		
+		users.find(x => x.color === color).bank -= raceBet[color];
+		
+		let para = `<p>$${raceBet[color]} on ${raceHorse[color]}</p>`;
+		document.getElementById(`${color}Div`).innerHTML = para;
+		forceRender();
+	}
+	
+	const raceTrack = (color) => {
+		if (!clickable){
+			if (rolls < 3) {
+				raceTrackLogic(color);
+				rolls++;
+				raceWinners.push(color);
+				setTurnOver(true);
+				console.log(rolls)
+				console.log(wasRolled(color));
+				forceRender();
+			}
+		}
+	}
+	
+	const wasRolled = (color) => {
+		let result = false;
+		for (let i = 0; i < raceWinners.length; i++) {
+			if (raceWinners[i] === color) {
+				result = true;
+			}
+		}
+		return result;
+	}
+	
+	const raceTrackLogic = (color) => {
+		let winner = users.find(x => x.color === color);
+		let horse = raceHorse[color];
+		let bet = raceBet[color];
+		let logic = 0;
+		if (!wasRolled(color)) {
+			if (rolls === 0) {
+				if (horse == '2' || horse === '12') {
+					logic = 40;
+				} else if (horse === '3' || horse === '11') {
+					logic = 20;
+				} else if (horse === '4' || horse === '10') {
+					logic = 12;
+				} else if (horse === '5' || horse === '9') {
+					logic = 10;
+				} else if (horse === '6' || horse === '8') {
+					logic = 7;
+				} else if (horse === '7') {
+					logic = 6;
+				}
+			} else if (rolls === 1) {
+				if (horse == '2' || horse === '12') {
+					logic = 20;
+				} else if (horse === '3' || horse === '11') {
+					logic = 10;
+				} else if (horse === '4' || horse === '10') {
+					logic = 7;
+				} else if (horse === '5' || horse === '9') {
+					logic = 5;
+				} else if (horse === '6' || horse === '8') {
+					logic = 4;
+				} else if (horse === '7') {
+					logic = 3;
+				}
+			} else if (rolls === 2){
+				if (horse === '2' || horse === '12') {
+					logic = 10;
+				} else if (horse === '3' || horse === '11') {
+					logic = 5;
+				} else if (horse === '4' || horse === '10') {
+					logic = 4;
+				} else if (horse === '5' || horse === '9') {
+					logic = 3;
+				} else if (horse === '6' || horse === '8') {
+					logic = 2;
+				} else if (horse === '7') {
+					logic = 1
+				}
+			}
+			winner.bank += parseInt(bet) + logic * parseInt(bet);
+		}
+	}
+	
+	//Collect You MONAYYYY $$$$$$
+	
+	const collectMoney = (amount) => {
+		if(landed <= 1) { 
+			if (clickable) {
+				turn.bank += amount;
+				forceRender();
+			}
+			if (landed === 1) {
+				setTurnOver(true);
+			}
+			
+			landed++;
+		} 
+	}
+	
+	//WELFARE PAYMENT
+	
+	const payWelfare = (amount) => {
+		let die = document.getElementById('welfareInput').value;
+		turn.bank -= round(parseInt(die) * amount);
+		setTurnOver(true);
+		forceRender();
 	}
 	
 	// Middle Display
@@ -307,15 +420,22 @@ const App = () => {
 		if (type === 'red' || type === 'blue' || type === 'green' || type === 'black' || type === 'brown' || type === 'olive'){
 			setDisplay(Property({type: type, price: price, color: level[id].color, creditClick: creditProperty, cashClick: cashProperty}));
 		} else if (type === 'stock') {
-			setDisplay(StockExchange({roll: stockRoll, sell: sellStock}));
+			setDisplay(StockExchange({roll: null, sell: sellStock}));
 		} else if (type === 'nightSchool') {
 			setDisplay(NightSchool({type: turn.level, click: buyDiploma}));
 		} else if (type === 'dad' || type === 'uncle' || type === 'footballLower' || type === 'footballMiddle' || type === 'ascot' || type === 'bingo') {
 			setDisplay(Dad({type: type, roll: dadRoll, claim: dadClaim}))
 		} else if (type === 'lottery') {
-			setDisplay(Lottery({roll: lottery}));
+			setDisplay(Lottery({claim: lottery}));
+		} else if (type === 'racetrack') {
+			setDisplay(RaceTrack({win: raceTrack, submitBet: raceSub, start: () => {clickable = false;}}));
+		} else if (type === 'country') {
+			setDisplay(YatchClub({type: turn.level, click: buyMembership}))
+		} else if (type === 'collect') {
+			setDisplay(Collect({type: turn.level, click: collectMoney}))
+		} else if (type === 'welfare' || type ==='ei') {
+			setDisplay(Welfare({type: type, click: payWelfare}))
 		}
-			
 	}
   return (
     <div className="App">
@@ -331,9 +451,12 @@ const App = () => {
 					<User user={users[3]} />
 					<User user={users[4]} />
 					<User user={users[5]} />		
-					<button onClick={goUp}>Go Up</button>
-					<button onClick={() => creditProperty('blue', 100)}>CREDIT</button>
-					<div id='roll' onClick={moveRoll}><h2 className="start">START</h2></div>
+					<div id='roll'>
+						<button id='goUpBtn'onClick={goUp}>GO UP</button>
+						<button id='moveBtn' onClick={moveRoll}>MOVE</button>
+						<button id='nextTurnBtn' onClick={nextTurn}>END TURN</button>
+					</div>
+					
 				</div>
 			</div>
     </div>

@@ -38,11 +38,10 @@ export default function StockExchange({roll, sell}) {
 			<div className='row'>
 				<div className='stockCol01'>12</div>
 				<div className='stockCol02'><p className='loseGain'>Regain 1100%</p></div>
-				<input type="text" id='stockInput' placeholder="AMOUNT" />
+				<input type="text" id='stockInput' placeholder='AMOUNT' />
 			</div>
 			<div className="row">
-				<div className='stockD01' onClick={roll}><img src='/assets/dice-01.png' alt='' /></div>
-				<div className='stockD02' onClick={roll}><img src='/assets/dice-01.png' alt='' /></div>
+				<input type='text' id='stockRoll' placeholder='ROLL' />
 				<div className='stockBtn'><p onClick={sell}>SELL</p></div>
 			</div>
 		</div>
