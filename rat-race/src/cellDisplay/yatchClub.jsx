@@ -3,7 +3,6 @@ import React from 'react';
 export default function YatchClub({ type, click}) {
 		let title = ''
 	let price = 0;
-	let paper = '';
 	if (type === 'lower') {
 		title = 'COUNTRY CLUB';
 		price = 50;

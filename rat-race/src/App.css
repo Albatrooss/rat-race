@@ -16,12 +16,13 @@ div {
 }
 
 .gameWindow {
-	margin: 40px auto;
-	width: 1060px;
-	height: 680px;
-	padding: 20px;
+	margin: 10px auto;
+	width: 1080px;
+	height: 685px;
+	padding: 10px;
 	background: #ddd;
 	display: flex;
+	border-radius: 4px;
 }
 .display {
 	background: #ccc;
@@ -42,7 +43,7 @@ img {
 }
 #roll {
 	position: absolute;
-	bottom: -20px;
+	bottom: 20px;
 	right: 190px;
 }
 #goUpBtn:focus,

@@ -4,7 +4,7 @@ export default function Collect({ type, click }) {
 	let amount = 0;
 	if (type === 'lower') {
 		amount = 200;
-	} else if (type === 'lower') {
+	} else if (type === 'middle') {
 		amount = 1000;
 	} else {
 		amount = 10000;

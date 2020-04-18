@@ -11,13 +11,39 @@
 .raceTrack,
 .yatchClub,
 .collect,
-.welfare {
+.welfare,
+.wedding,
+.taxes,
+.creditDue,
+.grad,
+.funeral,
+.divorce {
 	width: 220px;
 	height: 220px;
 	margin: 5px;
 	border-radius: 5px;
 	border: 1px #222 solid;
 	font-family: 'Poppins', sans-serif;
+}
+.divorce {
+	background: #FAD6C5;
+}
+.funeral {
+	background: #9B64A4;
+}
+.grad {
+	background: pink;
+	font-size: 22px;
+	line-height: 60px;
+}
+.creditDue {
+	background: #94E663;
+}
+.taxes {
+	background: #EADE51;
+}
+.wedding {
+	background: #FAF12E;
 }
 .welfare {
 	background: #F8E73E;
@@ -108,15 +134,7 @@
 #stockInput {
 	flex: 1;
 	text-align: center;
-}
-.stockD01 img,
-.stockD02 img {
-	width: 35px;
-	height: 35px;
-	margin: 5px;
-	flex: 1;
-}
-.stockBtn:hover {
+}ckBtn:hover {
 	background: #ddd;
 	border: 1px solid black;
 	margin: 4px 5px 0 0;
@@ -138,19 +156,43 @@
 }
 .schoolTitle,
 .displayTitle,
-.collectTitle{
-	margin: 5px;
+.collectTitle,
+.weddingTitle,
+.taxesTitle,
+.divorceTitle {
+	margin: 10px;
 	font-size: 35px;
+}
+.ascotTitle {
+	margin: 10px; 
+	font-size: 25px;
 }
 .schoolPrice,
 .collectPrice {
 	font-size: 20px;
 	margin: 5px;
 }
+.weddingPrice{
+	font-size: 20px;
+	margin: 15px 0;
+}
+.taxesPrice,
+.divorcePrice {
+	font-size: 18px;
+	margin: 15px 0;
+} 
+.ascotPrice {
+	font-size: 12px;
+	margin: 5px 0;
+}
 .schoolBtn,
 .clubBtn,
 .collectBtn,
-.welfareBtn {
+.welfareBtn,
+.taxesBtn,
+.funeralBtn,
+.divorceBtn,
+.ascotBtn {
 	position: relative;
 	top: -12px;
 	height: 25px;
@@ -158,14 +200,20 @@
   background: #fff;
   border-radius: 5px;
 }
+.ascotBtn {
+	margin: 0 5px;
+  width: 60px;
+}
 .clubBtn {
 	top: 0;
 }
-.clubTitle {
+.clubTitle,
+.funeralTitle {
 	margin: 10px;
 	font-size: 30px;
 }
-.clubPrice {
+.clubPrice,
+.funeralPrice {
 	 margin: 10px;
 	font-size: 15px
 }

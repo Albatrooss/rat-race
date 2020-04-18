@@ -128,7 +128,7 @@ export default function initializeBoard() {
 		},
 		{
 			type: 'wedding',
-			color: '#FFF001',
+			color: '#FAF12E',
 			text: 'SOCIETY WEDDING'
 		},
 		{
@@ -211,7 +211,7 @@ export default function initializeBoard() {
 		{
 			type: 'footballMiddle',
 			color: 'yellow',
-			text: 'FOOTBALL WINNINGS $100x dice'
+			text: 'FOOTBALL WINNINGS $100x DICE'
 		},
 		{
 			type: 'brown',
@@ -231,7 +231,7 @@ export default function initializeBoard() {
 		{
 			type: 'divorceMiddle',
 			color: '#FAD6C5',
-			text: 'DIVORCE $100x dice'
+			text: 'DIVORCE $100x DICE'
 		},
 		{
 			type: 'olive',
@@ -244,9 +244,9 @@ export default function initializeBoard() {
 			text: 'BLUE PROPERTY $500'
 		},
 		{
-			type: 'welfareMiddle',
+			type: 'welfare',
 			color: '#F8E73E',
-			text: 'WELFARE PAYMENT $50x dice'
+			text: 'WELFARE PAYMENT $50x DICE'
 		},
 		{
 			type: 'nightSchool',
@@ -299,9 +299,9 @@ export default function initializeBoard() {
 			text: 'GREEN PROPERTY $500'
 		},
 		{
-			type: 'taxesMiddle',
+			type: 'taxes',
 			color: '#EADE51',
-			text: 'TAXES DUE'
+			text: 'TAXES DUE $100x DICE'
 		},
 		{
 			type: 'blue',
@@ -310,7 +310,7 @@ export default function initializeBoard() {
 		},
 		{
 			type: 'wedding',
-			color: '#FFF001',
+			color: '#FAF12E',
 			text: 'SOCIETY WEDDING'
 		},
 		{
@@ -372,7 +372,7 @@ export default function initializeBoard() {
 		{
 			type: 'divorceUpper',
 			color: '#FAD6C5',
-			text: 'DIVORCE $1000x dice'
+			text: 'DIVORCE $1000x DICE'
 		},
 		{
 			type: 'black',
@@ -420,9 +420,9 @@ export default function initializeBoard() {
 			text: 'BROWN PROPERTY $3000'
 		},
 		{
-			type: 'taxesUpper',
+			type: 'taxes',
 			color: '#EADE51',
-			text: 'TAXES $1000x dice'
+			text: 'TAXES $1000x DICE'
 		},
 		{
 			type: 'green',
@@ -462,7 +462,7 @@ export default function initializeBoard() {
 		},
 		{
 			color: 'blue',
-			username: 'Albatroos',
+			username: 'Albatrooss',
 		},
 		{
 			color: 'green',

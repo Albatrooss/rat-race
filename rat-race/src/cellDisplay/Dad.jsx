@@ -5,7 +5,6 @@ export default function Dad({type, roll, claim}) {
 	let title = '';
 	let para = '';
 	let claimDiv = null;
-	let multiplier = 0;
 	if (type === 'dad') {
 		title = 'GIFT FROM DAD'
 		para = 'Collect $100';
@@ -19,7 +18,6 @@ export default function Dad({type, roll, claim}) {
 			<input type='text' id='footballInput' placeholder='ROLL' />
 			<button onClick={() => roll(20)}>CLAIM</button>
 		</div>
-		multiplier = 20;
 	} else if ( type === 'bingo') {
 		title = 'GOOD NIGHT AT BINGO';
 		para = 'Collect $100';
@@ -33,9 +31,14 @@ export default function Dad({type, roll, claim}) {
 			<input type='text' id='footballInput' placeHolder='ROLL' />
 			<button onClick={() => roll(100)}>CLAIM</button>
 		</div>
-		multiplier = 100;
-		
+	} else if (type === 'uncle') {
+		title = 'RICH UNCLE';
+		para = 'leaves you $500'
+		claimDiv = <div className='dice'>
+				<button onClick={() => claim(500)}>CLAIM</button>
+			</div>
 	}
+	
 	return (
 		<div className="dad">
 			<h2 className="schoolTitle">{title}</h2>

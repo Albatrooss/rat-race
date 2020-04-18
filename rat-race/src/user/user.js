@@ -53,8 +53,8 @@ function User({ user }) {
 					</div>
 				</div>
 				<div className="bottomRow">
-					<h4 className="credit">Credit: $<span className="creditNum">{user.credit}</span></h4>
-					<h2 className="money">$<span className="moneyNum">{user.bank}</span></h2>
+					<h4 className="credit">Credit: $<span className="creditNum">{user.credit.toLocaleString()}</span></h4>
+					<h2 className="money">$<span className="moneyNum">{user.bank.toLocaleString()}</span></h2>
 				</div>
 			</div>
 		);

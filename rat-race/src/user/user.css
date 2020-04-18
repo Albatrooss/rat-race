@@ -33,6 +33,8 @@
 }
 .classH4 {
 	font-family: 'Special Elite', cursive;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
+	border-radius: 5px;
 }
 
 .prop {
@@ -63,8 +65,19 @@
 	display: flex;
 	justify-content: space-between
 }
+.money {
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
+	border-radius: 5px;
+	width: 140px;
+  text-align: right;
+}
 .credit {
 	margin: 9px 0 0 0;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
+	border-radius: 5px;
+	width: 140px;
+  text-align: left;
+	padding-top: 2px;
 }
 
 .highlight {

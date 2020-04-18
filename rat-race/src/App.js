@@ -6,6 +6,7 @@ import Board from './board/board';
 import Display from './display/display.jsx';
 import User from './user/user';
 import Default from './cellDisplay/default';
+import Grad from './cellDisplay/grad';
 import Property from './cellDisplay/property';
 import StockExchange from './cellDisplay/stockExchange';
 import NightSchool from './cellDisplay/nightSchool';
@@ -15,6 +16,12 @@ import RaceTrack from './cellDisplay/racetrack';
 import YatchClub from './cellDisplay/yatchClub';
 import Collect from './cellDisplay/collect';
 import Welfare from './cellDisplay/welfare';
+import Wedding from './cellDisplay/wedding';
+import Taxes from './cellDisplay/taxes';
+import Credit from './cellDisplay/credit';
+import Funeral from './cellDisplay/funeral';
+import Divorce from './cellDisplay/divorce';
+import Ascot from './cellDisplay/ascot';
 
 function useForceUpdate(){
     const [value, setValue] = useState(0); // integer state
@@ -38,19 +45,13 @@ const App = () => {
 	let roll = 1;
 	let doubleRolld = 0;
 	let rolls = 0;
-	let clickable = true;
-	let lottoCount = 0;
-	let lottoHigh = 0;
-	let lottoWinners = [];
+	let clickable = true;	
 	let raceBet = {};
 	let raceHorse = {};
 	let raceWinners = [];
 	let landed = 0;
 	
 	// Piece Movement
-	
-	let rollInput;
-	
 		
 	const moveRoll = () => {
 		if (!turnOver) {
@@ -60,6 +61,7 @@ const App = () => {
 			setUsers(temp);
 			turnIndex = 0
 			users[0].highlighted = true;
+			setDisplay(Grad({level: 'start'}))
 		} else {
 
 			rolls = 0;
@@ -79,7 +81,7 @@ const App = () => {
 				setUpper(movePiece(temp));
 			}
 		}
-		}
+	}
 };
 	
 	const movePiece = (temp) => {
@@ -126,6 +128,7 @@ const App = () => {
 				let current = tempL.find(x => x.pieces.includes(turn.color));
 				current.pieces[turnIndex] = null;
 				setLower(tempL)
+				setDisplay(Grad({level: 'middleStart'}))
 			} else if (turn.level === 'middle') {
 				tempO[turnIndex].level = 'upper';
 				setUsers(tempO);
@@ -134,6 +137,7 @@ const App = () => {
 				let current = tempM.find(x => x.pieces.includes(turn.color));
 				current.pieces[turnIndex] = null;
 				setMiddle(tempM)
+				setDisplay(Grad({level: 'upperStart'}))
 			}
 			forceRender();
 		}
@@ -191,9 +195,7 @@ const App = () => {
 		if (clickable) {
 			let bet = document.querySelector('#stockInput').value;
 			doubleRolld = document.querySelector('#stockRoll').value;
-			console.log(doubleRolld)
 			let winnings = stockVal(bet) - bet;
-			console.log(winnings)
 			turn.bank += winnings
 			clickable = false;
 			setTurnOver(true);
@@ -310,8 +312,6 @@ const App = () => {
 				rolls++;
 				raceWinners.push(color);
 				setTurnOver(true);
-				console.log(rolls)
-				console.log(wasRolled(color));
 				forceRender();
 			}
 		}
@@ -334,7 +334,7 @@ const App = () => {
 		let logic = 0;
 		if (!wasRolled(color)) {
 			if (rolls === 0) {
-				if (horse == '2' || horse === '12') {
+				if (horse === '2' || horse === '12') {
 					logic = 40;
 				} else if (horse === '3' || horse === '11') {
 					logic = 20;
@@ -348,7 +348,7 @@ const App = () => {
 					logic = 6;
 				}
 			} else if (rolls === 1) {
-				if (horse == '2' || horse === '12') {
+				if (horse === '2' || horse === '12') {
 					logic = 20;
 				} else if (horse === '3' || horse === '11') {
 					logic = 10;
@@ -399,8 +399,130 @@ const App = () => {
 	//WELFARE PAYMENT
 	
 	const payWelfare = (amount) => {
-		let die = document.getElementById('welfareInput').value;
-		turn.bank -= round(parseInt(die) * amount);
+		if (clickable) {
+			let die = document.getElementById('welfareInput').value;
+			turn.bank -= round(parseInt(die) * amount);
+			setTurnOver(true);
+			clickable = false;
+			if (turn.bank < 0) {
+				goBankrupt(turn.color);
+			}
+			forceRender();
+		}
+	}
+	
+	//WEDDING
+	
+	const weddingBtn = () => {
+		if(clickable) {
+			goUp();
+			setTurnOver(true);
+			clickable = false;	
+		}
+	}
+	
+	// TAXES :(
+	
+	const payTaxes = (amount) => {
+		if (clickable) {
+			let dice = document.getElementById('taxesInput').value
+			turn.bank -= amount * parseInt(dice);
+			setTurnOver(true);
+			clickable = false;
+			if (turn.bank < 0) {
+				goBankrupt(turn.color);
+			}
+			forceRender();
+		}
+	}
+	
+	//CREDIT DUE
+	
+	const payCredit = () => {
+		if (clickable) {
+			let amount = round(turn.credit * 1.1);
+			turn.bank -= amount;
+			turn.credit = 0;
+			setTurnOver(true);
+			clickable = false;
+			if (turn.bank < 0) {
+				goBankrupt(turn.color);
+			}
+			forceRender();
+		}
+	}
+	
+	//DIVORCE!
+	
+	const getDivorced = (amount) => {
+		if (clickable) {
+			let dice = document.getElementById('divorceInput').value;
+			turn.bank -= parseInt(dice) * amount;
+			if (turn.bank < 0) {
+				goBankrupt(turn.color)
+			} else {
+					let tempL = lower;
+				let tempM = middle;
+				let tempU = upper;
+				if (turn.level === 'middle') {
+					let ind = tempM.findIndex(x => x.pieces.includes(turn.color))
+					tempM[ind].pieces[turnIndex] = null;
+					tempL[0].pieces[turnIndex] = turn.color;
+				} else if (turn.level === 'upper') {
+					let ind = tempU.findIndex(x => x.pieces.includes(turn.color))
+					tempU[ind].pieces[turnIndex] = null;
+					tempM[0].pieces[turnIndex] = turn.color;
+				}
+			}
+			clickable = false;
+			setTurnOver(true);
+			forceRender();
+		}
+	}
+	
+	//ASCOT
+	
+	const ascot = (amount) => {
+		if (clickable) {
+			turn.bank += amount;
+			clickable = false;
+			setTurnOver(true);
+			forceRender();
+		}
+	}
+	
+	// BANKRUPT
+	
+	const goBankrupt = (color) => {
+		let tempL = lower;
+		let tempM = middle;
+		let tempU = upper;
+		if (turn.level === 'lower') {
+			let ind = tempL.findIndex(x => x.pieces.includes(turn.color))
+			tempL[ind].pieces[turnIndex] = null;
+			tempL[0].pieces[turnIndex] = turn.color;
+		} else if (turn.level === 'middle') {
+			let ind = tempM.findIndex(x => x.pieces.includes(turn.color))
+			tempM[ind].pieces[turnIndex] = null;
+			tempL[0].pieces[turnIndex] = turn.color;
+			
+		} else if (turn.level === 'upper') {
+			let ind = tempU.findIndex(x => x.pieces.includes(turn.color))
+			tempU[ind].pieces[turnIndex] = null;
+			tempL[0].pieces[turnIndex] = turn.color;
+		}
+		turn = {
+				color: turn.color,
+				username: turn.username,
+				level: 'lower',
+				bank: 200,
+				credit: 0,
+				props: [],
+				degree: null,
+				highlighted: false,
+				turn: true
+			}
+		users[turnIndex] = turn;
 		setTurnOver(true);
 		forceRender();
 	}
@@ -417,13 +539,15 @@ const App = () => {
 		} else {
 			price = 3000;
 		}
-		if (type === 'red' || type === 'blue' || type === 'green' || type === 'black' || type === 'brown' || type === 'olive'){
+		if (type === 'start' || type === 'middleStart' || type === 'upperStart') {
+			setDisplay(Grad({level: type}));
+		} else	if (type === 'red' || type === 'blue' || type === 'green' || type === 'black' || type === 'brown' || type === 'olive'){
 			setDisplay(Property({type: type, price: price, color: level[id].color, creditClick: creditProperty, cashClick: cashProperty}));
 		} else if (type === 'stock') {
 			setDisplay(StockExchange({roll: null, sell: sellStock}));
 		} else if (type === 'nightSchool') {
 			setDisplay(NightSchool({type: turn.level, click: buyDiploma}));
-		} else if (type === 'dad' || type === 'uncle' || type === 'footballLower' || type === 'footballMiddle' || type === 'ascot' || type === 'bingo') {
+		} else if (type === 'dad' || type === 'uncle' || type === 'footballLower' || type === 'footballMiddle' || type === 'bingo') {
 			setDisplay(Dad({type: type, roll: dadRoll, claim: dadClaim}))
 		} else if (type === 'lottery') {
 			setDisplay(Lottery({claim: lottery}));
@@ -435,6 +559,18 @@ const App = () => {
 			setDisplay(Collect({type: turn.level, click: collectMoney}))
 		} else if (type === 'welfare' || type ==='ei') {
 			setDisplay(Welfare({type: type, click: payWelfare}))
+		} else if (type === 'wedding') {
+			setDisplay(Wedding({type: turn.level, click: weddingBtn}))
+		} else if (type === 'taxes') {
+			setDisplay(Taxes({type: turn.level, click: payTaxes}))
+		} else if (type === 'credit') {
+			setDisplay(Credit({amount: round(turn.credit * 1.1), color: turn.color, pay: payCredit, bankrupt: goBankrupt}))
+		} else if (type === 'funeral') {
+			setDisplay(Funeral({click: dadClaim}))
+		} else if (type === 'divorceMiddle' || type === 'divorceUpper') {
+			setDisplay(Divorce({type, click: getDivorced}))
+		} else if (type === 'ascot') {
+			setDisplay(Ascot({click: ascot}))
 		}
 	}
   return (
@@ -462,5 +598,6 @@ const App = () => {
     </div>
   );
 }
+
 
 export default App;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function( {type, click} ) {
+export default function Welfare( {type, click} ) {
 	let amount = 0;
 	if (type === 'ei') {
 		amount = 10;
