@@ -83,3 +83,16 @@
 .highlight {
 	border: 5px solid orange;
 }
+.uCreditBtn:hover {
+	background: rgba(0,0,0,0.3);
+}
+.uCreditBtn {
+	float: right;
+	background: rgba(0,0,0,0.1);
+	border: none;
+	border-radius: 5px;
+	height: 14px;
+	position: relative;
+	top: -1px;
+	left: -1px;
+}

@@ -17,13 +17,18 @@
 .creditDue,
 .grad,
 .funeral,
-.divorce {
+.divorce,
+.blackMarket {
 	width: 220px;
 	height: 220px;
 	margin: 5px;
 	border-radius: 5px;
 	border: 1px #222 solid;
 	font-family: 'Poppins', sans-serif;
+}
+.blackMarket {
+	background: #000;
+	color: #fff;
 }
 .divorce {
 	background: #FAD6C5;
@@ -77,6 +82,15 @@
 .propPrice {
 	margin: 10px;
 }
+.rentBtn {
+	position: relative;
+	top: -4px;
+	border: none;
+	border-left: 2px solid #000;
+	border-right: 2px solid #000;
+	border-bottom: 2px solid #000;
+	border-radius: 0 0 5px 5px;
+}
 .cellDisplay p {
 	font-size: 12px;
 }
@@ -120,21 +134,33 @@
 .loseGain {
 	margin: 2px 0;
 }
+.stock12 {
+	width: 50%;
+	display: flex;
+}
 .stockCol01,
 .stockCol02 {
 	border: 1px solid #fff;
-	width: 40px;
+	width: 12%;
 	font-size: 10px;
 	margin: 0;
 }
 .stockCol02 {
-	width: 70px;
-	flex: 2
+	width: 36%
 }
 #stockInput {
-	flex: 1;
 	text-align: center;
-}ckBtn:hover {
+	width: 63px;
+	margin: 3px 20px;
+	height: 10px;
+}
+#stockRoll {
+	height: 23px;
+  margin: 7px;
+  width: 35px;
+  text-align: center;
+}
+.stockBtn:hover {
 	background: #ddd;
 	border: 1px solid black;
 	margin: 4px 5px 0 0;
@@ -154,7 +180,6 @@
 	background: yellow;
 	font-family: 'Poppins', sans-serif;
 }
-.schoolTitle,
 .displayTitle,
 .collectTitle,
 .weddingTitle,
@@ -163,36 +188,57 @@
 	margin: 10px;
 	font-size: 35px;
 }
-.ascotTitle {
+.schoolTitle,
+.dadTitle {
+	margin: 20px;
+	font-size: 25px;
+}
+.ascotTitle,
+.marketTitle,
+.footballTitle{
 	margin: 10px; 
 	font-size: 25px;
 }
-.schoolPrice,
 .collectPrice {
 	font-size: 20px;
 	margin: 5px;
 }
-.weddingPrice{
+.weddingPrice,
+.dadPrice {
 	font-size: 20px;
 	margin: 15px 0;
 }
 .taxesPrice,
-.divorcePrice {
+.footballPrice {
 	font-size: 18px;
 	margin: 15px 0;
 } 
+.divorcePrice,
+.schoolPrice {
+	font-size: 15px;
+	margin: 10px 10px;
+}
 .ascotPrice {
 	font-size: 12px;
 	margin: 5px 0;
 }
-.schoolBtn,
+.schoolBtn{
+	height: 25px;
+	width: 100px;
+	margin: 5px;
+  background: #fff;
+  border-radius: 5px;
+}
 .clubBtn,
 .collectBtn,
 .welfareBtn,
 .taxesBtn,
 .funeralBtn,
 .divorceBtn,
-.ascotBtn {
+.ascotBtn,
+.dadBtn,
+.footballBtn,
+.creditBtn {
 	position: relative;
 	top: -12px;
 	height: 25px;
@@ -200,22 +246,31 @@
   background: #fff;
   border-radius: 5px;
 }
+.creditBtn {
+	top: 20px;
+}
 .ascotBtn {
 	margin: 0 5px;
   width: 60px;
 }
-.clubBtn {
+.clubBtn,
+.dadBtn {
 	top: 0;
 }
 .clubTitle,
-.funeralTitle {
+.funeralTitle,
+.creditTitle {
 	margin: 10px;
 	font-size: 30px;
 }
 .clubPrice,
-.funeralPrice {
+.funeralPrice,
+.creditPrice {
 	 margin: 10px;
 	font-size: 15px
+}
+.creditPrice {
+	margin: 50px 10px 10px 10px;
 }
 .welfareTitle {
 	margin: 5px;
@@ -261,6 +316,8 @@
 	font-family: 'Special Elite', cursive;
 	font-size: 20px;
 	margin: 7px auto;
+	position: relative;
+	left: -32px;
 }
 .lottoRoll img,
 .raceD01 img,
@@ -275,6 +332,30 @@
 	width: 100px;
 	margin: 10px 10px 5px 10px;
 	z-index: 1;
+}
+.lottoOut {
+	position: relative;
+	left: -36px;
+	font-size: 10px;
+	height: 20px;
+	top: 5px;
+	border: none;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	border-radius: 2px;
+}
+.lottoIn {
+		position: relative;
+	left: -25px;
+	font-size: 10px;
+	height: 20px;
+	top: 5px;
+	border: none;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	border-radius: 2px;
 }
 .raceTitle {
 	font-size: 30px;
@@ -326,4 +407,33 @@ input::-webkit-inner-spin-button {
 	border-radius: 2px;
 	text-align: center;
 	color: black;
+}
+.bMarketProp {
+	width: 63px;
+	height: 115px;
+	margin: 0 5px;
+	font-size: 15px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	color: #000;
+}
+.bMarketInput {
+	width: 50px;
+  text-align: center;
+}
+.bMarketBtn {
+	position: relative;
+  top: -7px;
+}
+#footballInput,
+#welfareInput,
+#taxesInput,
+#divorceInput {
+	margin: 10px auto;
+	display: block;
+	width: 50px;
+	text-align: center;
+}
+.football {
+	text-align: center;
 }

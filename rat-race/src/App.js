@@ -11,6 +11,7 @@ import Property from './cellDisplay/property';
 import StockExchange from './cellDisplay/stockExchange';
 import NightSchool from './cellDisplay/nightSchool';
 import Dad from './cellDisplay/Dad';
+import Football from './cellDisplay/football';
 import Lottery from './cellDisplay/lottery';
 import RaceTrack from './cellDisplay/racetrack';
 import YatchClub from './cellDisplay/yatchClub';
@@ -22,6 +23,7 @@ import Credit from './cellDisplay/credit';
 import Funeral from './cellDisplay/funeral';
 import Divorce from './cellDisplay/divorce';
 import Ascot from './cellDisplay/ascot';
+import BlackMarket from './cellDisplay/blackMarket';
 
 function useForceUpdate(){
     const [value, setValue] = useState(0); // integer state
@@ -46,6 +48,8 @@ const App = () => {
 	let doubleRolld = 0;
 	let rolls = 0;
 	let clickable = true;	
+	let lottoStart = false;
+	let lottoIns = [];
 	let raceBet = {};
 	let raceHorse = {};
 	let raceWinners = [];
@@ -102,7 +106,7 @@ const App = () => {
 //		} else {
 //			next[turnIndex - 1].highlighted = false;
 //		}
-		if (turnIndex === 5) {
+		if (turnIndex === 3) {
 			turnIndex = 0;
 		} else {
 			turnIndex++;
@@ -113,7 +117,34 @@ const App = () => {
 		forceRender();
 	}
 	
+	//GOING UP
+	
+	const showBlackMarket = () => {
+		if (!turnOver){
+			setDisplay(BlackMarket({props: turn.props, sell: blackMarket, goUp: goUp}))
+		}
+	}
+	
+	const blackMarket = (prop) => {
+		if (document.getElementById(`${prop.color}PropBtn`).innerHTML === 'SELL') {
+			let color = document.getElementById(`${prop.color}MarketUser`).value;
+			if (color !== 'bank') {
+				let amount = document.getElementById(`${prop.color}MarketPrice`).value;
+				let buyer = users.find(x => x.color === color);
+				buyer.props.push(prop);
+				buyer.bank -= parseInt(amount);
+				turn.bank += parseInt(amount);
+				
+			}
+			document.getElementById(`${prop.color}PropBtn`).innerHTML = 'SOLD';
+			let ind = turn.props.findIndex(x => x.color === prop.color);
+			turn.props.splice(ind, 1);
+			forceRender();
+		}
+	}
+	
 	const goUp = () => {
+		console.log(turnIndex, turnOver)
 		if (turnIndex !== -1 && !turnOver) {
 			let tempL = lower;
 			let tempM = middle;
@@ -121,6 +152,11 @@ const App = () => {
 			let tempO = users;
 
 			if (turn.level === 'lower') {
+				console.log(turn);
+				if(!turn.degree) {
+					turn.bank -= 250;
+				}
+				turn.degree = null;
 				tempO[turnIndex].level = 'middle';
 				setUsers(tempO);
 				tempM[0].pieces[turnIndex] = turn.color;
@@ -130,6 +166,10 @@ const App = () => {
 				setLower(tempL)
 				setDisplay(Grad({level: 'middleStart'}))
 			} else if (turn.level === 'middle') {
+				if(!turn.degree) {
+					turn.bank -= 1500;
+				}
+				turn.degree = null;
 				tempO[turnIndex].level = 'upper';
 				setUsers(tempO);
 				tempU[0].pieces[turnIndex] = turn.color;
@@ -171,6 +211,21 @@ const App = () => {
 			}
 			setTurnOver(true);
 			forceRender();
+		}
+	}
+	const payRent = (color, price) => {
+		if (clickable){
+			if (turn.bank >= price) {
+				let buyer = users.findIndex(x => x.color === turn.color)
+				let seller = users.findIndex(x => x.color === color);
+				users[buyer].bank -= price;
+				users[seller].bank += price;
+				setTurnOver(true);
+				forceRender();
+			} else {
+				goBankrupt(turn.color);
+			}	
+			clickable = false;
 		}
 	}
 	
@@ -240,10 +295,23 @@ const App = () => {
 	
 	//SCHOOL and COUNTRY CLUB
 	
-	const buyDiploma = (price) => {
-		if (turn.bank >= price) {
+	const creditDiploma = (price) => {
+		console.log(turnOver)
+		if (clickable) {
 			turn.degree = 'uni';
-			turn.bank = turn.bank - price;
+			turn.credit += price;
+			clickable = false;
+			setTurnOver(true);
+			console.log(turnOver)
+			forceRender();
+		}
+	}
+	
+	const buyDiploma = (price) => {
+		if (turn.bank >= price && clickable) {
+			turn.degree = 'uni';
+			turn.bank -= price;
+			clickable = false;
 			setTurnOver(true);
 			forceRender();
 		}
@@ -282,12 +350,24 @@ const App = () => {
 	//Lottery
 	
 	const lottery = (winner) => {
-		if (clickable) {
+		if (clickable && lottoStart && lottoIns.includes(winner)) {
 			let bet = document.querySelector('#lottoBet').value;
-			let players = document.querySelector('#lottoPlayers').value;
+			let players = lottoIns.length;
 			users.find(x => x.color === winner).bank += bet * players;
 			clickable = false;
 			setTurnOver(true);
+			forceRender();
+		}
+	}
+	
+	const lottoIn = (color) => {
+		if (!lottoIns.includes(color) && !lottoStart) {
+			let hello = document.getElementById(`${color}Lotto`);
+			let bet = document.querySelector('#lottoBet').value;
+			users.find(x => x.color === color).bank -= parseInt(bet);
+			hello.innerHTML = 'IN';
+			hello.className = 'lottoIn'
+			lottoIns.push(color);
 			forceRender();
 		}
 	}
@@ -347,6 +427,7 @@ const App = () => {
 				} else if (horse === '7') {
 					logic = 6;
 				}
+				console.log('1st place');
 			} else if (rolls === 1) {
 				if (horse === '2' || horse === '12') {
 					logic = 20;
@@ -361,6 +442,7 @@ const App = () => {
 				} else if (horse === '7') {
 					logic = 3;
 				}
+				console.log('2nd place');
 			} else if (rolls === 2){
 				if (horse === '2' || horse === '12') {
 					logic = 10;
@@ -375,8 +457,18 @@ const App = () => {
 				} else if (horse === '7') {
 					logic = 1
 				}
+				console.log('3rd place');
 			}
-			winner.bank += parseInt(bet) + logic * parseInt(bet);
+			winner.bank += round(parseInt(bet) + logic * parseInt(bet));
+		}
+	}
+	
+	const startRace = () => {
+		if (clickable) {
+			clickable = false;
+		} else {
+			console.log('no1')
+			rolls++;
 		}
 	}
 	
@@ -415,7 +507,8 @@ const App = () => {
 	
 	const weddingBtn = () => {
 		if(clickable) {
-			goUp();
+			turn.degree = 'wedding';
+			showBlackMarket();
 			setTurnOver(true);
 			clickable = false;	
 		}
@@ -438,7 +531,7 @@ const App = () => {
 	
 	//CREDIT DUE
 	
-	const payCredit = () => {
+	const creditDue = () => {
 		if (clickable) {
 			let amount = round(turn.credit * 1.1);
 			turn.bank -= amount;
@@ -448,6 +541,16 @@ const App = () => {
 			if (turn.bank < 0) {
 				goBankrupt(turn.color);
 			}
+			forceRender();
+		}
+	}
+	
+	const payCredit = (color) => {
+		let user = users.find(x => x.color === color);
+		if (user.bank >= user.credit * 1.1) {
+			let amount = round(user.credit * 1.1);
+			user.bank -= amount;
+			user.credit = 0;
 			forceRender();
 		}
 	}
@@ -462,16 +565,18 @@ const App = () => {
 				goBankrupt(turn.color)
 			} else {
 					let tempL = lower;
-				let tempM = middle;
-				let tempU = upper;
-				if (turn.level === 'middle') {
-					let ind = tempM.findIndex(x => x.pieces.includes(turn.color))
-					tempM[ind].pieces[turnIndex] = null;
-					tempL[0].pieces[turnIndex] = turn.color;
-				} else if (turn.level === 'upper') {
-					let ind = tempU.findIndex(x => x.pieces.includes(turn.color))
-					tempU[ind].pieces[turnIndex] = null;
-					tempM[0].pieces[turnIndex] = turn.color;
+					let tempM = middle;
+					let tempU = upper;
+					if (turn.level === 'middle') {
+						let ind = tempM.findIndex(x => x.pieces.includes(turn.color))
+						tempM[ind].pieces[turnIndex] = null;
+						tempL[0].pieces[turnIndex] = turn.color;
+						turn.level = 'lower';
+					} else if (turn.level === 'upper') {
+						let ind = tempU.findIndex(x => x.pieces.includes(turn.color))
+						tempU[ind].pieces[turnIndex] = null;
+						tempM[0].pieces[turnIndex] = turn.color;
+						turn.level = 'middle';
 				}
 			}
 			clickable = false;
@@ -542,17 +647,19 @@ const App = () => {
 		if (type === 'start' || type === 'middleStart' || type === 'upperStart') {
 			setDisplay(Grad({level: type}));
 		} else	if (type === 'red' || type === 'blue' || type === 'green' || type === 'black' || type === 'brown' || type === 'olive'){
-			setDisplay(Property({type: type, price: price, color: level[id].color, creditClick: creditProperty, cashClick: cashProperty}));
+			setDisplay(Property({type: type, price: price, color: level[id].color, creditClick: creditProperty, cashClick: cashProperty, rentClick: payRent}));
 		} else if (type === 'stock') {
 			setDisplay(StockExchange({roll: null, sell: sellStock}));
 		} else if (type === 'nightSchool') {
-			setDisplay(NightSchool({type: turn.level, click: buyDiploma}));
-		} else if (type === 'dad' || type === 'uncle' || type === 'footballLower' || type === 'footballMiddle' || type === 'bingo') {
-			setDisplay(Dad({type: type, roll: dadRoll, claim: dadClaim}))
+			setDisplay(NightSchool({type: turn.level, credit: creditDiploma, cash: buyDiploma}));
+		} else if (type === 'footballLower' || type === 'footballMiddle') {
+			setDisplay(Football({type: type, roll: dadRoll, claim: dadClaim}));
+		} else if (type === 'dad' || type === 'uncle' || type === 'bingo') {
+			setDisplay(Dad({type: type, roll: dadRoll, claim: dadClaim}));
 		} else if (type === 'lottery') {
-			setDisplay(Lottery({claim: lottery}));
+			setDisplay(Lottery({claim: lottery, indeed: lottoIn, start: () => lottoStart = true}));
 		} else if (type === 'racetrack') {
-			setDisplay(RaceTrack({win: raceTrack, submitBet: raceSub, start: () => {clickable = false;}}));
+			setDisplay(RaceTrack({win: raceTrack, submitBet: raceSub, start: startRace}));
 		} else if (type === 'country') {
 			setDisplay(YatchClub({type: turn.level, click: buyMembership}))
 		} else if (type === 'collect') {
@@ -564,7 +671,7 @@ const App = () => {
 		} else if (type === 'taxes') {
 			setDisplay(Taxes({type: turn.level, click: payTaxes}))
 		} else if (type === 'credit') {
-			setDisplay(Credit({amount: round(turn.credit * 1.1), color: turn.color, pay: payCredit, bankrupt: goBankrupt}))
+			setDisplay(Credit({amount: round(turn.credit * 1.1), color: turn.color, pay: creditDue, bankrupt: goBankrupt}))
 		} else if (type === 'funeral') {
 			setDisplay(Funeral({click: dadClaim}))
 		} else if (type === 'divorceMiddle' || type === 'divorceUpper') {
@@ -581,14 +688,14 @@ const App = () => {
 					<Display display={display}/>
 				</div>
 				<div className="right">
-					<User user={users[0]} />
-					<User user={users[1]} />
-					<User user={users[2]} />
-					<User user={users[3]} />
-					<User user={users[4]} />
-					<User user={users[5]} />		
+					<User user={users[0]} credit={payCredit} />
+					<User user={users[1]} credit={payCredit} />
+					<User user={users[2]} credit={payCredit} />
+					<User user={users[3]} credit={payCredit} />
+					<User user={users[4]} credit={payCredit} />
+					<User user={users[5]} credit={payCredit} />		
 					<div id='roll'>
-						<button id='goUpBtn'onClick={goUp}>GO UP</button>
+						<button id='goUpBtn'onClick={showBlackMarket}>GO UP</button>
 						<button id='moveBtn' onClick={moveRoll}>MOVE</button>
 						<button id='nextTurnBtn' onClick={nextTurn}>END TURN</button>
 					</div>

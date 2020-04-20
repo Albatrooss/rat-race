@@ -457,28 +457,28 @@ export default function initializeBoard() {
 	
 	let users = [
 			{
-			color: 'red',
-			username: 'Hermione',
-		},
-		{
-			color: 'blue',
-			username: 'Albatrooss',
-		},
-		{
-			color: 'green',
-			username: 'Hannah',
-		},
-		{
 			color: 'black',
-			username: 'Dad',
+			username: 'Kyla/Andrew',
 		},
 		{
-			color: 'brown',
-			username: 'Adam',
+			color: 'red',
+			username: 'Patii/Hugh',
 		},
 		{
 			color: 'olive',
-			username: 'ElmDawg',
+			username: 'Hannah/Adam',
+		},
+		{
+			color: 'blue',
+			username: 'Caitlin/Tim',
+		},
+		{
+			color: 'brown',
+			username: 'NaN',
+		},
+		{
+			color: 'green',
+			username: 'NaN',
 		}
 	].reduce((acc, user) => {
 		acc.push({

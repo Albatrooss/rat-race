@@ -1,7 +1,7 @@
 import React from 'react';
 import './user.css'
 
-function User({ user }) {
+function User({ user, credit }) {
 	
 	if (user) {
 		
@@ -53,7 +53,7 @@ function User({ user }) {
 					</div>
 				</div>
 				<div className="bottomRow">
-					<h4 className="credit">Credit: $<span className="creditNum">{user.credit.toLocaleString()}</span></h4>
+					<h4 className="credit">Credit: $<span className="creditNum">{user.credit.toLocaleString()}</span><button className='uCreditBtn' onClick={() => credit(user.color)}>PAY</button></h4>
 					<h2 className="money">$<span className="moneyNum">{user.bank.toLocaleString()}</span></h2>
 				</div>
 			</div>

@@ -6,7 +6,7 @@ export default function Credit( {amount, color, pay, bankrupt} ) {
 		<div className='creditDue'>
 			<h2 className='creditTitle'>CREDIT DUE</h2>
 			<h4 className='creditPrice'>Pay 10% interest</h4>
-			<button className='welfareBtn' onClick={pay}>PAY</button>
+			<button className='creditBtn' onClick={pay}>PAY</button>
 		</div>
 	);
 }
